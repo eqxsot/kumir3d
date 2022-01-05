@@ -1,0 +1,174 @@
+﻿использовать Рисователь
+
+алг основной
+нач
+цел i, j
+вещ rox, roy, roz
+вещ rdx, rdy, rdz
+вещ uvx, uvy
+вещ пx, пересечениеy
+вещ соотношение
+цел оттенок
+цел r, g, b
+новый лист(300, 200, черный)
+соотношение := ширина листа / высота листа
+вещ lx, ly, lz
+вещ ipx, ipy, ipz
+вещ nx, ny, nz
+вещ lpx, lpy, lpz
+цел objcr, objcg, objcb
+вещ sphposx, sphposy, sphposz
+вещ diff
+вещ minIt
+цел рисовать
+вещ артёмка
+
+sphposx := 0
+sphposy := 0
+sphposz := 0
+
+lpx := -1
+lpy := -1
+lpz := -1
+
+lx := нормx(lpx, lpy, lpz)
+ly := нормy(lpx, lpy, lpz)
+lz := нормz(lpx, lpy, lpz)
+нц для i от 0 до ширина листа
+нц для j от 0 до высота листа
+рисовать := 0
+
+uvx := i / ширина листа * 2.0 - 1.0
+uvy := j / высота листа * 2.0 - 1.0
+uvx := uvx * соотношение
+
+rox := -3
+roy := 0
+roz := 0
+
+rdx := нормx(1.0, uvx, uvy)
+rdy := нормy(1.0, uvx, uvy)
+rdz := нормz(1.0, uvx, uvy)
+
+пx := плоскость(rox, roy, roz, rdx, rdy, rdz, 0, 0, -1, 1)
+если пx > 0 то
+ipx := rox - sphposx + rdx * пx
+ipy := roy - sphposy + rdy * пx
+ipz := roz - sphposz + rdz * пx
+nx := нормx(ipx, ipy, ipz)
+ny := нормy(ipx, ipy, ipz)
+nz := нормz(ipx, ipy, ipz)
+diff := ((nx * lx + ny * ly + nz * lz) * 0.5 + 0.5)
+рисовать := 1
+objcr := 114
+objcg := 181
+objcb := 102
+все
+
+пx := сфера(rox - sphposx, roy - sphposy, roz - sphposz, rdx, rdy, rdz, 1.0)
+если пx > 0 то
+ipx := rox - sphposx + rdx * пx
+ipy := roy - sphposy + rdy * пx
+ipz := roz - sphposz + rdz * пx
+nx := нормx(ipx, ipy, ipz)
+ny := нормy(ipx, ipy, ipz)
+nz := нормz(ipx, ipy, ipz)
+diff := ((nx * lx + ny * ly + nz * lz) * 0.5 + 0.5)
+рисовать := 1
+objcr := 240
+objcg := 57
+objcb := 57
+все
+
+если рисовать = 1 то
+если рисовать = 1 то
+r := int(diff * objcr)
+g := int(diff * objcg)
+b := int(diff * objcb)
+если r < 0 то
+r := 0
+g := 0
+b := 0
+иначе
+если r <= objcr то
+r := r
+g := g
+b := b
+иначе
+если r > objcr то 
+r := mod(r, objcr)
+g := mod(g, objcg)
+b := mod(b, objcb)
+все
+если r > objcr то
+r := objcr
+g := objcg
+b := objcb
+все
+все
+все
+перо(1, RGB(r, g, b))
+прямоугольник(i, j, i + 1, j + 1)
+все
+все
+если рисовать = 0 то
+перо(1, RGB(109, 205, 228))
+прямоугольник(i, j, i + 1, j + 1)
+все
+кц
+кц
+кон
+
+алг вещ длинавектора(арг вещ x, вещ y, вещ z)
+нач
+знач := sqrt(x * x + y * y + z * z)
+кон
+
+алг вещ нормx(арг вещ x, вещ y, вещ z)
+нач
+знач := x / длинавектора(x, y, z)
+кон
+
+алг вещ нормy(арг вещ x, вещ y, вещ z)
+нач
+знач := y / длинавектора(x, y, z)
+кон
+
+алг вещ нормz(арг вещ x, вещ y, вещ z)
+нач
+знач := z / длинавектора(x, y, z)
+кон
+
+алг вещ сфера(арг вещ rox, вещ roy, вещ roz, вещ rdx, вещ rdy, вещ rdz, вещ радиус)
+нач
+вещ b, c, h
+b := rox * rdx + roy * rdy + roz * rdz
+c := rox * rox + roy * roy + roz * roz - радиус * радиус
+h := b * b - c
+если h < 0.0 то
+знач := -1.0
+иначе
+h := sqrt(h)
+знач := -b - h
+все
+кон
+
+алг вещ плоскость(арг вещ rox, вещ roy, вещ roz, вещ rdx, вещ rdy, вещ rdz, вещ px, вещ py, вещ pz, вещ w)
+нач
+вещ dot1, dot2
+dot1 := rox * px + roy * py + roz * pz
+dot2 := rdx * px + rdy * py + rdz * pz
+если dot2 = 0 то
+знач := 0
+иначе
+знач := -(dot1 + w) / dot2
+все
+кон
+
+
+
+
+
+
+
+
